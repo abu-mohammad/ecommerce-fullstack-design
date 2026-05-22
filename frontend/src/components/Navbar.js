@@ -19,6 +19,9 @@ function Navbar() {
         {user ? (
           <>
             <span style={styles.username}>Hi, {user.name}!</span>
+            {user.isAdmin && (
+              <Link to="/admin" style={styles.link}>Admin</Link>
+            )}
             <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
           </>
         ) : (
