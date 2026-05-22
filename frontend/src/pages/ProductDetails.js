@@ -1,17 +1,27 @@
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-
-const products = [
-  { id: 1, name: "Wireless Headphones", price: 29.99, category: "Electronics", description: "High quality wireless headphones with noise cancellation and 20hr battery life." },
-  { id: 2, name: "Running Shoes", price: 49.99, category: "Sports", description: "Lightweight and comfortable running shoes perfect for daily training." },
-  { id: 3, name: "Coffee Mug", price: 19.99, category: "Kitchen", description: "Large ceramic coffee mug that keeps your drink warm for hours." },
-  { id: 4, name: "Laptop Bag", price: 39.99, category: "Electronics", description: "Waterproof laptop bag with multiple compartments fits up to 15 inch laptops." },
-  { id: 5, name: "Yoga Mat", price: 24.99, category: "Sports", description: "Non-slip yoga mat with carrying strap, perfect for home or gym workouts." },
-  { id: 6, name: "Water Bottle", price: 14.99, category: "Kitchen", description: "Stainless steel water bottle keeps drinks cold for 24hrs and hot for 12hrs." },
-];
 
 function ProductDetails() {
   const { id } = useParams();
-  const product = products.find(p => p.id === parseInt(id));
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/api/products/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        setProduct(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log('Error:', error);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return <h2 style={{ padding: '30px' }}>Loading product...</h2>;
+  }
 
   if (!product) {
     return (
@@ -25,15 +35,13 @@ function ProductDetails() {
   return (
     <div style={{ padding: '30px', maxWidth: '800px', margin: '0 auto' }}>
 
-      {/* Back Button */}
       <Link to="/products" style={{ color: '#333', textDecoration: 'none' }}>
         ← Back to Products
       </Link>
 
-      {/* Product Details */}
       <div style={styles.container}>
         <img
-          src="https://via.placeholder.com/350"
+          src={product.image}
           alt={product.name}
           style={styles.image}
         />
@@ -43,8 +51,11 @@ function ProductDetails() {
           <p style={{ color: '#4CAF50', fontSize: '32px', fontWeight: 'bold', marginBottom: '15px' }}>
             ${product.price}
           </p>
-          <p style={{ color: '#555', lineHeight: '1.6', marginBottom: '25px' }}>
+          <p style={{ color: '#555', lineHeight: '1.6', marginBottom: '15px' }}>
             {product.description}
+          </p>
+          <p style={{ color: '#888', marginBottom: '25px' }}>
+            Stock: {product.stock} items available
           </p>
           <button style={styles.addButton}>
             🛒 Add to Cart
