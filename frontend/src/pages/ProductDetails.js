@@ -57,7 +57,17 @@ function ProductDetails() {
           <p style={{ color: '#888', marginBottom: '25px' }}>
             Stock: {product.stock} items available
           </p>
-          <button style={styles.addButton}>
+          <button style={styles.addButton} onClick={() => {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const exists = cart.find(item => item._id === product._id);
+            if (!exists) {
+              cart.push(product);
+              localStorage.setItem('cart', JSON.stringify(cart));
+              alert('Product added to cart!');
+            } else {
+              alert('Already in cart!');
+            }
+          }}>
             🛒 Add to Cart
           </button>
         </div>
