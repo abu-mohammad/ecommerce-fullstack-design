@@ -6,6 +6,7 @@ import Cart from './pages/Cart';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Admin from './pages/Admin';
+import Orders from './pages/Orders';
 import Navbar from './components/Navbar';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/orders" element={<Orders />} />
       </Routes>
     </BrowserRouter>
   );

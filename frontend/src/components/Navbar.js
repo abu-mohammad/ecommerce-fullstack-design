@@ -16,6 +16,9 @@ function Navbar() {
         <Link to="/" style={styles.link}>Home</Link>
         <Link to="/products" style={styles.link}>Products</Link>
         <Link to="/cart" style={styles.link}>Cart</Link>
+        {user && (
+          <Link to="/orders" style={styles.link}>My Orders</Link>
+        )}
         {user ? (
           <>
             <span style={styles.username}>Hi, {user.name}!</span>

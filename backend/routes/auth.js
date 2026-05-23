@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+
 const User = require('../models/User');
 
 // REGISTER
@@ -89,5 +89,21 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+// GET all users (admin only)
+const jwt = require('jsonwebtoken');
 
+router.get('/users', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ message: 'No token!' });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decoded.isAdmin) return res.status(403).json({ message: 'Not authorized!' });
+
+    const users = await User.find().select('-password');
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 module.exports = router;

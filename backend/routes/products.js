@@ -45,5 +45,17 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
+// UPDATE product
+router.put('/:id', async (req, res) => {
+  try {
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 module.exports = router;

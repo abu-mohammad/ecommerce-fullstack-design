@@ -1,7 +1,12 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Cart() {
+  const navigate = useNavigate();
+  const [ordering, setOrdering] = useState(false);
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const user = JSON.parse(localStorage.getItem('user'));
+  const token = localStorage.getItem('token');
 
   const removeFromCart = (id) => {
     const updatedCart = cart.filter(item => item._id !== id);
@@ -10,6 +15,43 @@ function Cart() {
   };
 
   const totalPrice = cart.reduce((total, item) => total + item.price, 0);
+
+  const handleCheckout = async () => {
+    if (!user) {
+      alert('Please login first!');
+      navigate('/login');
+      return;
+    }
+
+    setOrdering(true);
+    try {
+      const response = await fetch('http://localhost:5000/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          products: cart.map(item => ({
+            product: item._id,
+            name: item.name,
+            price: item.price,
+            image: item.image
+          })),
+          totalPrice: totalPrice
+        })
+      });
+
+      if (response.ok) {
+        localStorage.removeItem('cart');
+        alert('Order placed successfully! 🎉');
+        navigate('/orders');
+      }
+    } catch (error) {
+      alert('Something went wrong!');
+    }
+    setOrdering(false);
+  };
 
   if (cart.length === 0) {
     return (
@@ -45,8 +87,7 @@ function Cart() {
           </div>
           <button
             onClick={() => removeFromCart(item._id)}
-            style={styles.removeBtn}
-          >
+            style={styles.removeBtn}>
             ✕ Remove
           </button>
         </div>
@@ -54,8 +95,11 @@ function Cart() {
 
       <div style={styles.total}>
         <h2>Total: ${totalPrice.toFixed(2)}</h2>
-        <button style={styles.checkoutBtn}>
-          Proceed to Checkout
+        <button
+          onClick={handleCheckout}
+          style={styles.checkoutBtn}
+          disabled={ordering}>
+          {ordering ? 'Placing Order...' : '✅ Place Order'}
         </button>
       </div>
     </div>
@@ -95,9 +139,7 @@ const styles = {
     borderRadius: '8px',
     objectFit: 'cover',
   },
-  itemInfo: {
-    flex: 1,
-  },
+  itemInfo: { flex: 1 },
   removeBtn: {
     backgroundColor: 'red',
     color: 'white',
