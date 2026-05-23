@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 
 function Navbar() {
   const user = JSON.parse(localStorage.getItem('user'));
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -9,28 +10,44 @@ function Navbar() {
     window.location.href = '/';
   };
 
+  // Admin Navbar
+  if (user && user.isAdmin) {
+    return (
+      <nav style={styles.nav}>
+        <Link to="/admin" style={styles.logo}>ShopEasy Admin</Link>
+        <div style={styles.links}>
+          <span style={styles.username}>{user.name}</span>
+          <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
+        </div>
+      </nav>
+    );
+  }
+
+  // Regular User Navbar
   return (
     <nav style={styles.nav}>
-      <h2 style={styles.logo}>🛒 ShopEasy</h2>
+      <Link to="/" style={styles.logo}>ShopEasy</Link>
       <div style={styles.links}>
         <Link to="/" style={styles.link}>Home</Link>
         <Link to="/products" style={styles.link}>Products</Link>
-        <Link to="/cart" style={styles.link}>Cart</Link>
-        {user && (
-          <Link to="/orders" style={styles.link}>My Orders</Link>
-        )}
+        <Link to="/cart" style={styles.cartLink}>
+          Cart
+          {cart.length > 0 && (
+            <span style={styles.cartBadge}>{cart.length}</span>
+          )}
+        </Link>
         {user ? (
           <>
-            <span style={styles.username}>Hi, {user.name}!</span>
-            {user.isAdmin && (
-              <Link to="/admin" style={styles.link}>Admin</Link>
-            )}
-            <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
+            <Link to="/orders" style={styles.link}>My Orders</Link>
+            <div style={styles.userMenu}>
+              <span style={styles.username}>{user.name}</span>
+              <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
+            </div>
           </>
         ) : (
           <>
             <Link to="/login" style={styles.link}>Login</Link>
-            <Link to="/register" style={styles.link}>Register</Link>
+            <Link to="/register" style={styles.registerBtn}>Register</Link>
           </>
         )}
       </div>
@@ -43,34 +60,79 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#333',
-    padding: '10px 30px',
+    background: 'linear-gradient(135deg, #1a73e8, #0d47a1)',
+    padding: '15px 40px',
+    boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+    position: 'sticky',
+    top: 0,
+    zIndex: 1000,
   },
   logo: {
     color: 'white',
-    margin: 0,
+    fontSize: '24px',
+    fontWeight: 'bold',
+    textDecoration: 'none',
+    letterSpacing: '1px',
   },
   links: {
     display: 'flex',
-    gap: '20px',
+    gap: '25px',
     alignItems: 'center',
   },
   link: {
-    color: 'white',
+    color: 'rgba(255,255,255,0.9)',
     textDecoration: 'none',
-    fontSize: '16px',
+    fontSize: '15px',
+    fontWeight: '500',
+  },
+  cartLink: {
+    color: 'rgba(255,255,255,0.9)',
+    textDecoration: 'none',
+    fontSize: '15px',
+    fontWeight: '500',
+    position: 'relative',
+  },
+  cartBadge: {
+    position: 'absolute',
+    top: '-8px',
+    right: '-8px',
+    backgroundColor: '#ff4444',
+    color: 'white',
+    borderRadius: '50%',
+    width: '18px',
+    height: '18px',
+    fontSize: '11px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  userMenu: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
   },
   username: {
-    color: '#4CAF50',
-    fontWeight: 'bold',
+    color: 'rgba(255,255,255,0.9)',
+    fontSize: '15px',
+    fontWeight: '500',
   },
   logoutBtn: {
-    backgroundColor: 'red',
+    backgroundColor: 'rgba(255,255,255,0.2)',
     color: 'white',
-    border: 'none',
-    padding: '8px 15px',
-    borderRadius: '5px',
+    border: '1px solid rgba(255,255,255,0.4)',
+    padding: '6px 15px',
+    borderRadius: '20px',
     cursor: 'pointer',
+    fontSize: '14px',
+  },
+  registerBtn: {
+    backgroundColor: 'white',
+    color: '#1a73e8',
+    padding: '8px 20px',
+    borderRadius: '20px',
+    textDecoration: 'none',
+    fontWeight: '600',
+    fontSize: '14px',
   }
 };
 

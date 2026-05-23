@@ -1,112 +1,197 @@
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 function Home() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/products')
+      .then(res => res.json())
+      .then(data => setProducts(data.slice(0, 3)));
+  }, []);
+
   return (
     <div>
-
       {/* Hero Section */}
       <div style={styles.hero}>
-        <h1 style={styles.heroTitle}>Welcome to ShopEasy 🛒</h1>
-        <p style={styles.heroText}>Find the best products at the best prices</p>
-        <Link to="/products" style={styles.heroButton}>Shop Now</Link>
-      </div>
-
-      {/* Featured Products Section */}
-      <div style={styles.section}>
-        <h2 style={styles.sectionTitle}>Featured Products</h2>
-        <div style={styles.productsGrid}>
-
-          {/* Product Card 1 */}
-          <div style={styles.card}>
-            <img src="https://via.placeholder.com/200" alt="product" style={styles.cardImage}/>
-            <h3>Product 1</h3>
-            <p style={styles.price}>$29.99</p>
-            <Link to="/product/1" style={styles.cardButton}>View Details</Link>
+        <div style={styles.heroContent}>
+          <h1 style={styles.heroTitle}>Welcome to ShopEasy</h1>
+          <p style={styles.heroSubtitle}>
+            Discover amazing products at unbeatable prices
+          </p>
+          <div style={styles.heroBtns}>
+            <Link to="/products" style={styles.primaryBtn}>
+              Shop Now →
+            </Link>
+            <Link to="/register" style={styles.secondaryBtn}>
+              Join Free
+            </Link>
           </div>
-
-          {/* Product Card 2 */}
-          <div style={styles.card}>
-            <img src="https://via.placeholder.com/200" alt="product" style={styles.cardImage}/>
-            <h3>Product 2</h3>
-            <p style={styles.price}>$49.99</p>
-            <Link to="/product/2" style={styles.cardButton}>View Details</Link>
-          </div>
-
-          {/* Product Card 3 */}
-          <div style={styles.card}>
-            <img src="https://via.placeholder.com/200" alt="product" style={styles.cardImage}/>
-            <h3>Product 3</h3>
-            <p style={styles.price}>$19.99</p>
-            <Link to="/product/3" style={styles.cardButton}>View Details</Link>
-          </div>
-
         </div>
       </div>
 
+      {/* Features Section */}
+      <div style={styles.features}>
+        {[
+          { icon: '', title: 'Free Delivery', desc: 'On orders over $50' },
+          { icon: '', title: 'Secure Payment', desc: '100% secure transactions' },
+          { icon: '', title: 'Easy Returns', desc: '30 day return policy' },
+          { icon: '', title: '24/7 Support', desc: 'Always here to help' },
+        ].map((f, i) => (
+          <div key={i} style={styles.featureCard}>
+            <span style={{ fontSize: '30px' }}>{f.icon}</span>
+            <h3 style={{ margin: '10px 0 5px', color: '#1a73e8' }}>{f.title}</h3>
+            <p style={{ color: '#888', fontSize: '14px' }}>{f.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Featured Products */}
+      <div style={styles.section}>
+        <div style={styles.sectionHeader}>
+          <h2 style={styles.sectionTitle}>Featured Products</h2>
+          <Link to="/products" style={styles.viewAll}>View All →</Link>
+        </div>
+        <div className="products-grid">
+          {products.map(product => (
+            <div className="card" key={product._id}>
+              <img src={product.image} alt={product.name} />
+              <div className="card-content">
+                <span className="category-badge">{product.category}</span>
+                <h3 style={{ margin: '8px 0', fontSize: '16px' }}>{product.name}</h3>
+                <p className="price">${product.price}</p>
+                <Link to={`/product/${product._id}`} className="card-button">
+                  View Details
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Banner Section */}
+      <div style={styles.banner}>
+        <h2 style={{ color: 'white', fontSize: '28px', marginBottom: '10px' }}>
+          Special Offer!
+        </h2>
+        <p style={{ color: 'rgba(255,255,255,0.9)', marginBottom: '20px', fontSize: '16px' }}>
+          Get 20% off on your first order. Use code: WELCOME20
+        </p>
+        <Link to="/products" style={styles.bannerBtn}>
+          Shop Now
+        </Link>
+      </div>
+
+      {/* Footer */}
+      <footer style={styles.footer}>
+        <p>© 2026 ShopEasy. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
 
 const styles = {
   hero: {
-    backgroundColor: '#4CAF50',
-    color: 'white',
+    background: 'linear-gradient(135deg, #1a73e8, #0d47a1)',
+    padding: '100px 40px',
     textAlign: 'center',
-    padding: '80px 20px',
+  },
+  heroContent: {
+    maxWidth: '600px',
+    margin: '0 auto',
   },
   heroTitle: {
+    color: 'white',
     fontSize: '48px',
-    margin: '0 0 10px 0',
+    fontWeight: '800',
+    marginBottom: '15px',
+    lineHeight: '1.2',
   },
-  heroText: {
-    fontSize: '20px',
-    margin: '0 0 30px 0',
-  },
-  heroButton: {
-    backgroundColor: 'white',
-    color: '#4CAF50',
-    padding: '12px 30px',
-    borderRadius: '25px',
-    textDecoration: 'none',
-    fontWeight: 'bold',
+  heroSubtitle: {
+    color: 'rgba(255,255,255,0.85)',
     fontSize: '18px',
+    marginBottom: '35px',
+  },
+  heroBtns: {
+    display: 'flex',
+    gap: '15px',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
+  primaryBtn: {
+    backgroundColor: 'white',
+    color: '#1a73e8',
+    padding: '14px 35px',
+    borderRadius: '30px',
+    textDecoration: 'none',
+    fontWeight: '700',
+    fontSize: '16px',
+    boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+  },
+  secondaryBtn: {
+    backgroundColor: 'transparent',
+    color: 'white',
+    padding: '14px 35px',
+    borderRadius: '30px',
+    textDecoration: 'none',
+    fontWeight: '700',
+    fontSize: '16px',
+    border: '2px solid white',
+  },
+  features: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4, 1fr)',
+    gap: '20px',
+    padding: '40px',
+    backgroundColor: 'white',
+    boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
+  },
+  featureCard: {
+    textAlign: 'center',
+    padding: '20px',
   },
   section: {
-    padding: '40px 30px',
+    padding: '50px 40px',
+  },
+  sectionHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '25px',
   },
   sectionTitle: {
     fontSize: '28px',
-    marginBottom: '20px',
+    fontWeight: '700',
+    color: '#333',
   },
-  productsGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '20px',
+  viewAll: {
+    color: '#1a73e8',
+    textDecoration: 'none',
+    fontWeight: '600',
+    fontSize: '15px',
   },
-  card: {
-    border: '1px solid #ddd',
-    borderRadius: '10px',
-    padding: '20px',
+  banner: {
+    background: 'linear-gradient(135deg, #1a73e8, #0d47a1)',
+    padding: '60px 40px',
     textAlign: 'center',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+    margin: '0 40px 40px',
+    borderRadius: '20px',
   },
-  cardImage: {
-    width: '100%',
-    borderRadius: '8px',
+  bannerBtn: {
+    backgroundColor: 'white',
+    color: '#1a73e8',
+    padding: '12px 35px',
+    borderRadius: '30px',
+    textDecoration: 'none',
+    fontWeight: '700',
+    fontSize: '16px',
   },
-  price: {
-    color: '#4CAF50',
-    fontSize: '20px',
-    fontWeight: 'bold',
-  },
-  cardButton: {
+  footer: {
     backgroundColor: '#333',
     color: 'white',
-    padding: '8px 20px',
-    borderRadius: '5px',
-    textDecoration: 'none',
-    display: 'inline-block',
-    marginTop: '10px',
+    textAlign: 'center',
+    padding: '20px',
+    fontSize: '14px',
   }
 };
 

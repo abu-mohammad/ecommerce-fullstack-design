@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -18,8 +19,8 @@ function Cart() {
 
   const handleCheckout = async () => {
     if (!user) {
-      alert('Please login first!');
-      navigate('/login');
+      toast.error('Please login first!');
+      setTimeout(() => navigate('/login'), 1500);
       return;
     }
 
@@ -44,8 +45,8 @@ function Cart() {
 
       if (response.ok) {
         localStorage.removeItem('cart');
-        alert('Order placed successfully! 🎉');
-        navigate('/orders');
+        toast.success('Order placed successfully!');
+        setTimeout(() => navigate('/orders'), 1500);
       }
     } catch (error) {
       alert('Something went wrong!');

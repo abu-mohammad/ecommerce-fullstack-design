@@ -5,44 +5,81 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f4f8;
+  color: #333;
 }
 
+/* Product Grid */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 25px;
   padding: 20px 0;
 }
 
+/* Product Card */
 .card {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 20px;
+  background: white;
+  border-radius: 15px;
+  padding: 0;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
 
 .card img {
   width: 100%;
-  border-radius: 8px;
+  height: 220px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 15px;
 }
 
 .price {
-  color: #4CAF50;
+  color: #1a73e8;
   font-size: 20px;
   font-weight: bold;
-  margin: 10px 0;
+  margin: 8px 0;
 }
 
 .card-button {
-  background-color: #333;
+  background: linear-gradient(135deg, #1a73e8, #0d47a1);
   color: white;
-  padding: 8px 20px;
-  border-radius: 5px;
+  padding: 10px 25px;
+  border-radius: 25px;
   text-decoration: none;
   display: inline-block;
-  margin-top: 10px;
+  margin: 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.card-button:hover {
+  opacity: 0.9;
+}
+
+/* Category Badge */
+.category-badge {
+  display: inline-block;
+  background: #e8f0fe;
+  color: #1a73e8;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 8px 0;
 }
 
 /* Tablet */

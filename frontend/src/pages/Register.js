@@ -1,10 +1,11 @@
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 function Register() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
-  const [error, setError] = useState('');
+ const [, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -30,10 +31,10 @@ function Register() {
         localStorage.setItem('user', JSON.stringify(data.user));
         navigate('/');
       } else {
-        setError(data.message);
+        toast.error(data.message);
       }
     } catch (error) {
-      setError('Something went wrong!');
+      toast.error('Something went wrong!');
     }
     setLoading(false);
   };
@@ -43,7 +44,7 @@ function Register() {
       <div style={styles.form}>
         <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Register</h2>
 
-        {error && <p style={styles.error}>{error}</p>}
+      
 
         <input
           type="text"

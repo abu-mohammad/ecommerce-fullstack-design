@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Home from './pages/Home';
 import ProductListing from './pages/ProductListing';
 import ProductDetails from './pages/ProductDetails';
@@ -13,6 +14,14 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+      />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductListing />} />

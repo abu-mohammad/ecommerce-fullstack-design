@@ -9,13 +9,14 @@ function Orders() {
   const user = JSON.parse(localStorage.getItem('user'));
   const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    fetchOrders();
-  }, []);
+  // eslint-disable-next-line
+useEffect(() => {
+  if (!user) {
+    navigate('/login');
+    return;
+  }
+  fetchOrders();
+}, []);
 
   const fetchOrders = async () => {
     const res = await fetch('http://localhost:5000/api/orders/myorders', {

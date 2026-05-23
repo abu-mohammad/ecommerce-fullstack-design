@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
+const Product = require('../models/Product');
 const jwt = require('jsonwebtoken');
 
 // Middleware to verify token
@@ -27,16 +28,34 @@ const verifyAdmin = (req, res, next) => {
   });
 };
 
-// CREATE order
+// CREATE order — stock decrements automatically
 router.post('/', verifyToken, async (req, res) => {
   try {
+    // Check stock and decrement for each product
+    for (const item of req.body.products) {
+      const product = await Product.findById(item.product);
+      if (!product) {
+        return res.status(404).json({ message: `Product not found!` });
+      }
+      if (product.stock < 1) {
+        return res.status(400).json({ message: `${product.name} is out of stock!` });
+      }
+      // Decrement stock by 1
+      await Product.findByIdAndUpdate(item.product, {
+        $inc: { stock: -1 }
+      });
+    }
+
+    // Create order
     const order = new Order({
       user: req.user.id,
       products: req.body.products,
       totalPrice: req.body.totalPrice
     });
+
     const savedOrder = await order.save();
     res.status(201).json(savedOrder);
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
