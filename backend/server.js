@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 // Connect to MongoDB and Start Server
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://admin:admin1234@cluster0.argwnpp.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0';
-
+process.env.JWT_SECRET = process.env.JWT_SECRET || 'shopeasy_secret_key_2026';
 console.log('PORT:', PORT);
 console.log('MONGO_URI exists:', !!MONGO_URI);
 
