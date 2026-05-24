@@ -10,7 +10,101 @@ body {
   color: #333;
 }
 
-/* Product Grid */
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #1a73e8, #0d47a1);
+  padding: 15px 40px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  flex-wrap: wrap;
+}
+
+.nav-logo {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.nav-hamburger {
+  display: none;
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+  font-size: 20px;
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+
+.nav-link {
+  color: rgba(255,255,255,0.9);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.nav-cart {
+  color: rgba(255,255,255,0.9);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #ff4444;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-username {
+  color: rgba(255,255,255,0.9);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.nav-logout {
+  background-color: rgba(255,255,255,0.2);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.4);
+  padding: 6px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.nav-register {
+  background-color: white;
+  color: #1a73e8;
+  padding: 8px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ===== PRODUCT GRID ===== */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -18,7 +112,6 @@ body {
   padding: 20px 0;
 }
 
-/* Product Card */
 .card {
   background: white;
   border-radius: 15px;
@@ -70,7 +163,6 @@ body {
   opacity: 0.9;
 }
 
-/* Category Badge */
 .category-badge {
   display: inline-block;
   background: #e8f0fe;
@@ -82,70 +174,72 @@ body {
   margin: 8px 0;
 }
 
-/* Tablet */
+/* ===== MOBILE ===== */
 @media (max-width: 768px) {
+  .navbar {
+    padding: 15px 20px;
+  }
+
+  .nav-hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+
+  .nav-links.nav-open {
+    display: flex;
+  }
+
+  .nav-link,
+  .nav-cart {
+    width: 100%;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 16px;
+    color: white;
+  }
+
+  .nav-username {
+    padding: 12px 0;
+    width: 100%;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .nav-register {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .nav-logout {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .cart-badge {
+    position: static;
+    margin-left: 8px;
+  }
+
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Mobile */
 @media (max-width: 480px) {
   .products-grid {
     grid-template-columns: 1fr;
-  }
-}
-/* Hide hamburger on desktop */
-@media (min-width: 769px) {
-  nav button[style*="hamburger"] {
-    display: none !important;
-  }
-}
-
-/* Show hamburger on mobile */
-@media (max-width: 768px) {
-  nav > div:nth-child(2) {
-    display: none !important;
-  }
-  
-  nav button {
-    display: block !important;
-  }
-
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .products-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-/* Hide hamburger on desktop */
-@media (min-width: 769px) {
-  nav button[style*="hamburger"] {
-    display: none !important;
-  }
-}
-
-/* Show hamburger on mobile */
-@media (max-width: 768px) {
-  nav > div:nth-child(2) {
-    display: none !important;
-  }
-  
-  nav button {
-    display: block !important;
-  }
-
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .products-grid {
-    grid-template-columns: 1fr !important;
   }
 }
