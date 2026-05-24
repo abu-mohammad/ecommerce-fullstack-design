@@ -1,9 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
+
+// Load dotenv only in development
+require('dotenv').config();
 
 const productRoutes = require('./routes/products');
 const authRoutes = require('./routes/auth');
@@ -27,8 +27,17 @@ app.get('/', (req, res) => {
 
 // Connect to MongoDB and Start Server
 const PORT = process.env.PORT || 5000;
+const MONGO_URI = process.env.MONGO_URI;
 
-mongoose.connect(process.env.MONGO_URI)
+console.log('PORT:', PORT);
+console.log('MONGO_URI exists:', !!MONGO_URI);
+
+if (!MONGO_URI) {
+  console.error('MONGO_URI is not defined!');
+  process.exit(1);
+}
+
+mongoose.connect(MONGO_URI)
   .then(() => {
     console.log('MongoDB Connected!');
     app.listen(PORT, () => {
