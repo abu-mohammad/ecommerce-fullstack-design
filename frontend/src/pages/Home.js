@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
+const API = 'https://ecommerce-fullstack-design-production-98f8.up.railway.app';
+
 function Home() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch('https://ecommerce-fullstack-design-production-98f8.up.railway.app/api/products')
+    fetch(`${API}/api/products`)
       .then(res => res.json())
       .then(data => setProducts(data.slice(0, 3)));
   }, []);
@@ -21,7 +23,7 @@ function Home() {
           </p>
           <div style={styles.heroBtns}>
             <Link to="/products" style={styles.primaryBtn}>
-              Shop Now →
+              Shop Now
             </Link>
             <Link to="/register" style={styles.secondaryBtn}>
               Join Free
@@ -31,26 +33,27 @@ function Home() {
       </div>
 
       {/* Features Section */}
-      <div style={styles.features}>
-        {[
-          { icon: '', title: 'Free Delivery', desc: 'On orders over $50' },
-          { icon: '', title: 'Secure Payment', desc: '100% secure transactions' },
-          { icon: '', title: 'Easy Returns', desc: '30 day return policy' },
-          { icon: '', title: '24/7 Support', desc: 'Always here to help' },
-        ].map((f, i) => (
-          <div key={i} style={styles.featureCard}>
-            <span style={{ fontSize: '30px' }}>{f.icon}</span>
-            <h3 style={{ margin: '10px 0 5px', color: '#1a73e8' }}>{f.title}</h3>
-            <p style={{ color: '#888', fontSize: '14px' }}>{f.desc}</p>
-          </div>
-        ))}
+      <div style={styles.featuresWrapper}>
+        <div className="features-grid">
+          {[
+            { title: 'Free Delivery', desc: 'On orders over $50' },
+            { title: 'Secure Payment', desc: '100% secure transactions' },
+            { title: 'Easy Returns', desc: '30 day return policy' },
+            { title: '24/7 Support', desc: 'Always here to help' },
+          ].map((f, i) => (
+            <div key={i} style={styles.featureCard}>
+              <h3 style={{ margin: '10px 0 5px', color: '#1a73e8' }}>{f.title}</h3>
+              <p style={{ color: '#888', fontSize: '14px' }}>{f.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Featured Products */}
       <div style={styles.section}>
         <div style={styles.sectionHeader}>
           <h2 style={styles.sectionTitle}>Featured Products</h2>
-          <Link to="/products" style={styles.viewAll}>View All →</Link>
+          <Link to="/products" style={styles.viewAll}>View All</Link>
         </div>
         <div className="products-grid">
           {products.map(product => (
@@ -138,17 +141,16 @@ const styles = {
     fontSize: '16px',
     border: '2px solid white',
   },
-  features: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)',
-    gap: '20px',
-    padding: '40px',
+  featuresWrapper: {
     backgroundColor: 'white',
+    padding: '40px',
     boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
   },
   featureCard: {
     textAlign: 'center',
     padding: '20px',
+    borderRadius: '10px',
+    backgroundColor: '#f0f4f8',
   },
   section: {
     padding: '50px 40px',
