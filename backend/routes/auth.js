@@ -106,4 +106,16 @@ router.get('/users', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+// Temporary route to make user admin
+router.get('/makeadmin/:email', async (req, res) => {
+  try {
+    await User.findOneAndUpdate(
+      { email: req.params.email },
+      { isAdmin: true }
+    );
+    res.json({ message: 'User is now admin!' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 module.exports = router;
