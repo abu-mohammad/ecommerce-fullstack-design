@@ -1,6 +1,12 @@
 {
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "NIXPACKS",
+    "nixpacksPlan": {
+      "providers": ["node"],
+      "variables": {
+        "NIXPACKS_NODE_VERSION": "18"
+      }
+    }
   },
   "deploy": {
     "startCommand": "node backend/server.js",
