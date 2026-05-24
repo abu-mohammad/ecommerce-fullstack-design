@@ -9,15 +9,14 @@ function Orders() {
   const user = JSON.parse(localStorage.getItem('user'));
   const token = localStorage.getItem('token');
 
-  // eslint-disable-next-line
 useEffect(() => {
   if (!user) {
     navigate('/login');
     return;
   }
   fetchOrders();
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
-
   const fetchOrders = async () => {
     const res = await fetch('https://ecommerce-fullstack-design-production-98f8.up.railway.app/api/orders/myorders', {
       headers: { 'Authorization': `Bearer ${token}` }

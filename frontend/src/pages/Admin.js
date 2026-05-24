@@ -18,11 +18,11 @@ function Admin() {
     const user = JSON.parse(localStorage.getItem('user'));
     const token = localStorage.getItem('token');
 
-    // eslint-disable-next-line
-    useEffect(() => {
-        if (!user || !user.isAdmin) navigate('/');
-        fetchAll();
-    }, []);
+   useEffect(() => {
+  if (!user || !user.isAdmin) navigate('/');
+  fetchAll();
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
     const fetchAll = async () => {
         await fetchProducts();
