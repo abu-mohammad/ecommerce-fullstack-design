@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-require('dotenv').config();
+try { require('dotenv').config(); } catch(e) {}
 
 const productRoutes = require('./routes/products');
 const authRoutes = require('./routes/auth');
