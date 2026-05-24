@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function Navbar() {
   const user = JSON.parse(localStorage.getItem('user'));
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -10,12 +12,14 @@ function Navbar() {
     window.location.href = '/';
   };
 
+  const closeMenu = () => setMenuOpen(false);
+
   // Admin Navbar
   if (user && user.isAdmin) {
     return (
       <nav style={styles.nav}>
         <Link to="/admin" style={styles.logo}>ShopEasy Admin</Link>
-        <div style={styles.links}>
+        <div style={styles.desktopLinks}>
           <span style={styles.username}>{user.name}</span>
           <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
         </div>
@@ -26,8 +30,18 @@ function Navbar() {
   // Regular User Navbar
   return (
     <nav style={styles.nav}>
+      {/* Logo */}
       <Link to="/" style={styles.logo}>ShopEasy</Link>
-      <div style={styles.links}>
+
+      {/* Hamburger Button - Mobile Only */}
+      <button
+        style={styles.hamburger}
+        onClick={() => setMenuOpen(!menuOpen)}>
+        {menuOpen ? '✕' : '☰'}
+      </button>
+
+      {/* Desktop Links */}
+      <div style={styles.desktopLinks}>
         <Link to="/" style={styles.link}>Home</Link>
         <Link to="/products" style={styles.link}>Products</Link>
         <Link to="/cart" style={styles.cartLink}>
@@ -39,10 +53,8 @@ function Navbar() {
         {user ? (
           <>
             <Link to="/orders" style={styles.link}>My Orders</Link>
-            <div style={styles.userMenu}>
-              <span style={styles.username}>{user.name}</span>
-              <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
-            </div>
+            <span style={styles.username}>{user.name}</span>
+            <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
           </>
         ) : (
           <>
@@ -51,6 +63,29 @@ function Navbar() {
           </>
         )}
       </div>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div style={styles.mobileMenu}>
+          <Link to="/" style={styles.mobileLink} onClick={closeMenu}>Home</Link>
+          <Link to="/products" style={styles.mobileLink} onClick={closeMenu}>Products</Link>
+          <Link to="/cart" style={styles.mobileLink} onClick={closeMenu}>
+            Cart {cart.length > 0 && `(${cart.length})`}
+          </Link>
+          {user ? (
+            <>
+              <Link to="/orders" style={styles.mobileLink} onClick={closeMenu}>My Orders</Link>
+              <span style={styles.mobileUsername}>{user.name}</span>
+              <button onClick={handleLogout} style={styles.mobileLogoutBtn}>Logout</button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" style={styles.mobileLink} onClick={closeMenu}>Login</Link>
+              <Link to="/register" style={styles.mobileLink} onClick={closeMenu}>Register</Link>
+            </>
+          )}
+        </div>
+      )}
     </nav>
   );
 }
@@ -66,6 +101,7 @@ const styles = {
     position: 'sticky',
     top: 0,
     zIndex: 1000,
+    flexWrap: 'wrap',
   },
   logo: {
     color: 'white',
@@ -74,7 +110,20 @@ const styles = {
     textDecoration: 'none',
     letterSpacing: '1px',
   },
-  links: {
+  hamburger: {
+    display: 'none',
+    backgroundColor: 'transparent',
+    border: '2px solid white',
+    color: 'white',
+    fontSize: '20px',
+    padding: '5px 10px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    '@media (max-width: 768px)': {
+      display: 'block',
+    }
+  },
+  desktopLinks: {
     display: 'flex',
     gap: '25px',
     alignItems: 'center',
@@ -106,11 +155,6 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
   },
-  userMenu: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-  },
   username: {
     color: 'rgba(255,255,255,0.9)',
     fontSize: '15px',
@@ -133,6 +177,38 @@ const styles = {
     textDecoration: 'none',
     fontWeight: '600',
     fontSize: '14px',
+  },
+  mobileMenu: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    padding: '15px 0',
+    borderTop: '1px solid rgba(255,255,255,0.2)',
+    marginTop: '10px',
+  },
+  mobileLink: {
+    color: 'white',
+    textDecoration: 'none',
+    fontSize: '16px',
+    padding: '8px 0',
+    borderBottom: '1px solid rgba(255,255,255,0.1)',
+  },
+  mobileUsername: {
+    color: 'rgba(255,255,255,0.9)',
+    fontSize: '15px',
+    padding: '8px 0',
+  },
+  mobileLogoutBtn: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    color: 'white',
+    border: '1px solid rgba(255,255,255,0.4)',
+    padding: '10px',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    fontSize: '15px',
+    width: '100%',
+    textAlign: 'center',
   }
 };
 
