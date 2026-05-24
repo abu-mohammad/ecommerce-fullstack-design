@@ -10,7 +10,7 @@ function ProductDetails() {
   const [added, setAdded] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/products/${id}`)
+    fetch(`https://ecommerce-fullstack-design-production-98f8.up.railway.app/api/products/${id}`)
       .then(res => res.json())
       .then(data => {
         setProduct(data);

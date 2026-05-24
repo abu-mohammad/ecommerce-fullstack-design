@@ -32,13 +32,13 @@ function Admin() {
     };
 
     const fetchProducts = async () => {
-        const res = await fetch('http://localhost:5000/api/products');
+        const res = await fetch('https://ecommerce-fullstack-design-production-98f8.up.railway.app/api/products');
         const data = await res.json();
         setProducts(data);
     };
 
     const fetchUsers = async () => {
-        const res = await fetch('http://localhost:5000/api/auth/users', {
+        const res = await fetch('https://ecommerce-fullstack-design-production-98f8.up.railway.app/api/auth/users', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
@@ -46,7 +46,7 @@ function Admin() {
     };
 
     const fetchOrders = async () => {
-        const res = await fetch('http://localhost:5000/api/orders', {
+        const res = await fetch('https://ecommerce-fullstack-design-production-98f8.up.railway.app/api/orders', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
@@ -58,7 +58,7 @@ function Admin() {
     };
 
     const handleAdd = async () => {
-        const res = await fetch('http://localhost:5000/api/products', {
+        const res = await fetch('https://ecommerce-fullstack-design-production-98f8.up.railway.app/api/products', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ function Admin() {
     };
 
     const handleUpdate = async () => {
-        const res = await fetch(`http://localhost:5000/api/products/${editProduct._id}`, {
+        const res = await fetch(`https://ecommerce-fullstack-design-production-98f8.up.railway.app/api/products/${editProduct._id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ function Admin() {
     const handleDelete = async (id) => {
         if (true) {
 
-            const res = await fetch(`http://localhost:5000/api/products/${id}`, {
+            const res = await fetch(`https://ecommerce-fullstack-design-production-98f8.up.railway.app/api/products/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -118,7 +118,7 @@ function Admin() {
     };
 
     const handleOrderStatus = async (id, status) => {
-        const res = await fetch(`http://localhost:5000/api/orders/${id}`, {
+        const res = await fetch(`https://ecommerce-fullstack-design-production-98f8.up.railway.app/api/orders/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

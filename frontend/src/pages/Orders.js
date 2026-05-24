@@ -19,7 +19,7 @@ useEffect(() => {
 }, []);
 
   const fetchOrders = async () => {
-    const res = await fetch('http://localhost:5000/api/orders/myorders', {
+    const res = await fetch('https://ecommerce-fullstack-design-production-98f8.up.railway.app/api/orders/myorders', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     const data = await res.json();

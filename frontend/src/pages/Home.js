@@ -5,7 +5,7 @@ function Home() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
+    fetch('https://ecommerce-fullstack-design-production-98f8.up.railway.app/api/products')
       .then(res => res.json())
       .then(data => setProducts(data.slice(0, 3)));
   }, []);
