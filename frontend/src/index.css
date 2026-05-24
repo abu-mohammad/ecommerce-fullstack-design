@@ -122,3 +122,30 @@ body {
     grid-template-columns: 1fr !important;
   }
 }
+/* Hide hamburger on desktop */
+@media (min-width: 769px) {
+  nav button[style*="hamburger"] {
+    display: none !important;
+  }
+}
+
+/* Show hamburger on mobile */
+@media (max-width: 768px) {
+  nav > div:nth-child(2) {
+    display: none !important;
+  }
+  
+  nav button {
+    display: block !important;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
