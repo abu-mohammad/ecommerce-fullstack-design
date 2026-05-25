@@ -127,11 +127,16 @@ function ProductDetails() {
       </div>
 
       {/* Product Details */}
-      <div style={styles.productBox}>
-        <div style={styles.imageBox}>
-          <img src={product.image} alt={product.name} style={styles.image} />
+      <div style={styles.productBox} className="product-box">
+        <div style={styles.imageBox} className="product-image-box">
+          <img
+            src={product.image}
+            alt={product.name}
+            style={styles.image}
+            className="product-image"
+          />
         </div>
-        <div style={styles.info}>
+        <div style={styles.info} className="product-info">
           <span className="category-badge">{product.category}</span>
           <h1 style={styles.name}>{product.name}</h1>
 

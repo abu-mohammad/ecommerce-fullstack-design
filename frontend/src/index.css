@@ -269,3 +269,22 @@ body {
     grid-template-columns: 1fr;
   }
 }
+/* Product Details Mobile */
+@media (max-width: 768px) {
+  .product-box {
+    flex-direction: column !important;
+    padding: 20px !important;
+  }
+
+  .product-image {
+    height: 250px !important;
+  }
+
+  .product-image-box {
+    min-width: 100% !important;
+  }
+
+  .product-info {
+    min-width: 100% !important;
+  }
+}
